@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -29,6 +30,9 @@ public class User implements UserDetails{
 
     @Enumerated(EnumType.STRING)
     AuthorityType authorityType;
+
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    private List<Grade> gradeList;
 
     private boolean accountNonExpired;
 

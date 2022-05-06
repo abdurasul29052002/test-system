@@ -6,6 +6,7 @@ import com.example.testsystem.model.QuestionModel;
 import com.example.testsystem.payload.QuestionDto;
 import com.example.testsystem.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

@@ -21,9 +21,19 @@ public class Question {
 
     private String text;
 
+    private Integer ball;
+
     @ManyToOne(optional = false)
     private Subject subject;
 
     @OneToMany(mappedBy = "question",cascade = CascadeType.ALL)
     private List<Answer> answers;
+
+    public Answer getCorrectAnswer(){
+        for (Answer answer : this.answers) {
+            if (answer.isCorrect())
+                return answer;
+        }
+        return null;
+    }
 }

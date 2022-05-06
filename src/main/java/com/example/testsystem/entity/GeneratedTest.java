@@ -5,26 +5,30 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
 import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Test {
+@Table(uniqueConstraints = {
+        @UniqueConstraint(columnNames = {
+                "user_id","test_id"
+        })
+})
+public class GeneratedTest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
-
-    private Integer questionsCount;
-
-    private Timestamp startsAt;
-
-    private Timestamp endsAt;
+    @ManyToOne
+    private User user;
 
     @ManyToOne
-    private Subject subject;
+    private Test test;
+
+    private boolean completed=false;
+
+    @ManyToMany
+    private List<Question> questionList;
 }

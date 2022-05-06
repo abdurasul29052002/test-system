@@ -8,6 +8,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+
 @Component
 public class Initializer implements CommandLineRunner {
 
@@ -24,6 +26,7 @@ public class Initializer implements CommandLineRunner {
                     "legolas",
                     passwordEncoder.encode("12345"),
                     AuthorityType.ADMIN,
+                    new ArrayList<>(),
                     true,
                     true,
                     true,

@@ -2,6 +2,7 @@ package com.example.testsystem.service;
 
 import com.example.testsystem.entity.User;
 import com.example.testsystem.model.ApiResponse;
+import com.example.testsystem.model.GradeModel;
 import com.example.testsystem.model.UserModel;
 import com.example.testsystem.payload.UserDto;
 import com.example.testsystem.repository.UserRepository;
@@ -17,15 +18,14 @@ public class UserService {
 
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    CastService castService;
 
     public List<UserModel> getAllUsers() {
         List<User> users = userRepository.findAllByEnabled(true);
         List<UserModel> userModels = new ArrayList<>();
         for (User user : users) {
-            UserModel userModel = new UserModel(user.getId(),
-                    user.getFullName(),
-                    user.getUsername(),
-                    user.getAuthorityType());
+            UserModel userModel = castService.castToUserModel(user);
             userModels.add(userModel);
         }
         return userModels;
@@ -34,7 +34,7 @@ public class UserService {
     public UserModel getUserById(Long id) {
         Optional<User> optionalUser = userRepository.findByIdAndEnabled(id, true);
         User user = optionalUser.orElseThrow(NullPointerException::new);
-        return new UserModel(user.getId(),user.getFullName(),user.getUsername(),user.getAuthorityType());
+        return castService.castToUserModel(user);
     }
 
     public ApiResponse updateUser(UserDto userDto,Long id){

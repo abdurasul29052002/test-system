@@ -16,6 +16,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 @Service
@@ -36,6 +37,7 @@ public class AuthService implements UserDetailsService {
                 registerDto.getUsername(),
                 passwordEncoder.encode(registerDto.getPassword()),
                 registerDto.getAuthorityType(),
+                new ArrayList<>(),
                 true,true,true,true);
         User savedUser = userRepository.save(user);
         return new ApiResponse("User saved",true,null,savedUser.getId());

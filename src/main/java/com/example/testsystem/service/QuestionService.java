@@ -27,13 +27,15 @@ public class QuestionService {
     AnswerRepository answerRepository;
     @Autowired
     SubjectRepository subjectRepository;
+    @Autowired
+    CastService castService;
 
     public ApiResponse addQuestion(Long subjectId, List<QuestionDto> questionDtoList) {
         Optional<Subject> optionalSubject = subjectRepository.findByIdAndEnabled(subjectId, true);
         Subject subject = optionalSubject.orElseThrow(NullPointerException::new);
         List<Question> questionList = new ArrayList<>();
         for (QuestionDto questionDto : questionDtoList) {
-            Question question = new Question(null, questionDto.getText(), subject, new ArrayList<>());
+            Question question = new Question(null, questionDto.getText(),questionDto.getBall(), subject, new ArrayList<>());
             List<Answer> answerList = new ArrayList<>();
             for (AnswerDto answerDto : questionDto.getAnswerDtoList()) {
                 Answer answer = new Answer(null, answerDto.isCorrect(), answerDto.getText(), question);
@@ -62,22 +64,14 @@ public class QuestionService {
 
     public QuestionModel getQuestionById(Long id){
         Question question = questionRepository.findById(id).orElseThrow(NullPointerException::new);
-        List<AnswerModel> answerModelList = new ArrayList<>();
-        for (Answer answer : question.getAnswers()) {
-            answerModelList.add(new AnswerModel(answer.getId(),answer.getText()));
-        }
-        return new QuestionModel(question.getId(),question.getText(),answerModelList);
+        return castService.castToQuestionModel(question);
     }
 
     public List<QuestionModel> getQuestionsBySubjectId(Long subjectId){
         List<Question> questionList = questionRepository.findAllBySubjectId(subjectId);
         List<QuestionModel> questionModelList = new ArrayList<>();
         for (Question question : questionList) {
-            List<AnswerModel> answerModelList = new ArrayList<>();
-            for (Answer answer : question.getAnswers()) {
-                answerModelList.add(new AnswerModel(answer.getId(),answer.getText()));
-            }
-            questionModelList.add(new QuestionModel(question.getId(),question.getText(),answerModelList));
+            questionModelList.add(castService.castToQuestionModel(question));
         }
         return  questionModelList;
     }

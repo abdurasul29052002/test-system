@@ -12,6 +12,8 @@ import java.util.List;
 public class QuestionDto {
     private String text;
 
+    private Integer ball;
+
     /* Answer's field */
     List<AnswerDto> answerDtoList;
 }

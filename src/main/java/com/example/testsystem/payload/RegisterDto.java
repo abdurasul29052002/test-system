@@ -4,11 +4,13 @@ import com.example.testsystem.entity.enums.AuthorityType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 
 import javax.validation.constraints.NotNull;
 
 @Data
 @NoArgsConstructor
+@ConditionalOnWebApplication
 @AllArgsConstructor
 public class RegisterDto {
     @NotNull

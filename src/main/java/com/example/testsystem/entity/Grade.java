@@ -5,26 +5,21 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
-import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Test {
+public class Grade {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
-
-    private Integer questionsCount;
-
-    private Timestamp startsAt;
-
-    private Timestamp endsAt;
+    @ManyToOne
+    private User user;
 
     @ManyToOne
-    private Subject subject;
+    private GeneratedTest generatedTest;
+
+    private Integer grade;
 }
