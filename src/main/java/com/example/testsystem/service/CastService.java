@@ -9,24 +9,28 @@ import java.util.List;
 
 @Service
 public class CastService {
-    public AnswerModel castToAnswerModel(Answer answer){
-        return new AnswerModel(answer.getId(),answer.getText());
+    public AnswerModel castToAnswerModel(Answer answer,boolean sendCorrectAnswer){
+        AnswerModel answerModel = new AnswerModel(answer.getId(), answer.getText(), false);
+        if (sendCorrectAnswer){
+            answerModel.setCorrect(answer.isCorrect());
+        }
+        return answerModel;
     }
 
-    public QuestionModel castToQuestionModel(Question question){
+    public QuestionModel castToQuestionModel(Question question, boolean correct,boolean sendCorrectAnswer){
         List<AnswerModel> answerModelList = new ArrayList<>();
         for (Answer answer : question.getAnswers()) {
-            answerModelList.add(castToAnswerModel(answer));
+            answerModelList.add(castToAnswerModel(answer,sendCorrectAnswer));
         }
-        return  new QuestionModel(question.getId(),question.getText(),question.getBall(),answerModelList);
+        return  new QuestionModel(question.getId(),question.getText(),question.getBall(),correct,answerModelList);
     }
 
-    public TestModel castToTestModel(GeneratedTest generatedTest){
+    public GeneratedTestModel castToGeneratedTestModel(GeneratedTest generatedTest){
         List<QuestionModel> questionModelList = new ArrayList<>();
         for (Question question : generatedTest.getQuestionList()) {
-            questionModelList.add(castToQuestionModel(question));
+            questionModelList.add(castToQuestionModel(question,false,false));
         }
-        return new TestModel(generatedTest.getId(),generatedTest.getTest().getId(),questionModelList);
+        return new GeneratedTestModel(generatedTest.getId(),generatedTest.getTest().getId(),questionModelList);
     }
 
     public UserModel castToUserModel(User user){
@@ -39,5 +43,16 @@ public class CastService {
 
     public GradeModel castToGradeModel(Grade grade){
         return new GradeModel(grade.getId(),grade.getUser().getId(),grade.getGeneratedTest().getId(),grade.getGrade());
+    }
+
+    public TestModel castToTestModel(Test test){
+        return new TestModel(
+                test.getId(),
+                test.getName(),
+                test.getQuestionsCount(),
+                test.getStartsAt(),
+                test.getEndsAt(),
+                test.getSubject().getId()
+        );
     }
 }

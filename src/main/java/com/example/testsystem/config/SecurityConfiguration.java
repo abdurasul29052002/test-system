@@ -15,6 +15,10 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+
+import java.util.Arrays;
+import java.util.Collections;
 
 @Configuration
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
@@ -30,8 +34,17 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .cors().and().csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/api/**").permitAll()
+//                .antMatchers(HttpMethod.GET,"/api/user/*","/api/test/*").hasAnyAuthority(AuthorityType.STUDENT.name(),AuthorityType.ADMIN.name(),AuthorityType.TEACHER.name())
+//                .antMatchers(HttpMethod.POST,"/api/test/check").hasAnyAuthority(AuthorityType.STUDENT.name(),AuthorityType.ADMIN.name(),AuthorityType.TEACHER.name())
+//                .antMatchers(HttpMethod.PUT,"/api/user/*").hasAnyAuthority(AuthorityType.STUDENT.name(),AuthorityType.ADMIN.name(),AuthorityType.TEACHER.name())
+//                .antMatchers(HttpMethod.POST,"/api/**").hasAnyAuthority(AuthorityType.TEACHER.name(),AuthorityType.ADMIN.name())
+//                .antMatchers(HttpMethod.DELETE,"/api/**").hasAuthority(AuthorityType.ADMIN.name())
                 .anyRequest()
                 .authenticated();
+        CorsConfiguration corsConfiguration = new CorsConfiguration();
+        corsConfiguration.setAllowedHeaders(Arrays.asList("Authorization", "Cache-Control", "Content-Type"));
+        corsConfiguration.setAllowedOrigins(Collections.singletonList("*"));
+        corsConfiguration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "PUT","OPTIONS","PATCH", "DELETE"));
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
     }

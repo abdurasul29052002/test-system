@@ -23,7 +23,7 @@ public class AuthController {
     AuthService authService;
 
     @PostMapping("/register")
-    public ApiResponse registerUser(@RequestBody @Valid RegisterDto registerDto){
+    public ApiResponse registerUser(@RequestBody  RegisterDto registerDto){
         return authService.registerUser(registerDto);
     }
 

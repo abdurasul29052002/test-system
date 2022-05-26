@@ -4,9 +4,7 @@ import org.springframework.security.core.GrantedAuthority;
 
 public enum AuthorityType implements GrantedAuthority {
     ADMIN,
-    TEACHER,
-    STUDENT;
-
+    USER;
     @Override
     public String getAuthority() {
         return this.name();

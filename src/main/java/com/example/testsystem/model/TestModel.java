@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
+import java.sql.Timestamp;
 
 @Data
 @NoArgsConstructor
@@ -12,7 +12,13 @@ import java.util.List;
 public class TestModel {
     private Long id;
 
-    private Long testId;
+    private String name;
 
-    private List<QuestionModel> questionModelList;
+    private Integer questionsCount;
+
+    private Timestamp startsAt;
+
+    private Timestamp endsAt;
+
+    private Long subjectId;
 }

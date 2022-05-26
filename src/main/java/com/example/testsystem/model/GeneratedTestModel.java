@@ -1,6 +1,5 @@
 package com.example.testsystem.model;
 
-import com.example.testsystem.entity.Answer;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,14 +9,10 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class QuestionModel {
+public class GeneratedTestModel {
     private Long id;
 
-    private String text;
+    private Long testId;
 
-    private Integer ball;
-
-    private boolean correct = false;
-
-    private List<AnswerModel> answerModelList;
+    private List<QuestionModel> questionModelList;
 }

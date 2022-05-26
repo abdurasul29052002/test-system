@@ -7,6 +7,7 @@ import com.example.testsystem.model.UserModel;
 import com.example.testsystem.payload.UserDto;
 import com.example.testsystem.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -31,9 +32,8 @@ public class UserService {
         return userModels;
     }
 
-    public UserModel getUserById(Long id) {
-        Optional<User> optionalUser = userRepository.findByIdAndEnabled(id, true);
-        User user = optionalUser.orElseThrow(NullPointerException::new);
+    public UserModel getUserById() {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return castService.castToUserModel(user);
     }
 

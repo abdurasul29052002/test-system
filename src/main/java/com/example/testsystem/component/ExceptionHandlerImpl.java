@@ -1,7 +1,9 @@
 package com.example.testsystem.component;
 
+import com.example.testsystem.exception.AlreadyEndException;
+import com.example.testsystem.exception.NotStartException;
+import com.example.testsystem.exception.TestCompletedException;
 import com.example.testsystem.model.ApiResponse;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -9,17 +11,25 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import javax.naming.TimeLimitExceededException;
-
 @ControllerAdvice
 public class ExceptionHandlerImpl {
 
-    @ExceptionHandler({TimeLimitExceededException.class})
-    public HttpEntity<?> handleException(TimeLimitExceededException e){
-        return ResponseEntity.status(409).body(new ApiResponse("This test is not started or already ended",false,null,null));
+    @ExceptionHandler({TestCompletedException.class})
+    public HttpEntity<?> handleException(TestCompletedException e){
+        return ResponseEntity.status(409).body(new ApiResponse("This test is already completed",false,null,null));
     }
 
-    @ExceptionHandler({RuntimeException.class,MethodArgumentNotValidException.class})
+    @ExceptionHandler({NotStartException.class})
+    public HttpEntity<?> handleException(NotStartException e){
+        return ResponseEntity.status(409).body(new ApiResponse("This test is not started",false,null,null));
+    }
+
+    @ExceptionHandler({AlreadyEndException.class})
+    public HttpEntity<?> handleException(AlreadyEndException e){
+        return ResponseEntity.status(409).body(new ApiResponse("This test is already ended",false,null,null));
+    }
+
+    @ExceptionHandler({MethodArgumentNotValidException.class})
     public HttpEntity<?> handleException(Exception e) {
         return ResponseEntity.status(400).body(new ApiResponse("Something went terribly wrong please check the form",false,null,null));
     }

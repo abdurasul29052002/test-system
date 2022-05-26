@@ -11,4 +11,6 @@ public class AnswerModel {
     private Long id;
 
     private String text;
+
+    private boolean correct;
 }

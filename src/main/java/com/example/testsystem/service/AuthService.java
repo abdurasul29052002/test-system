@@ -48,8 +48,9 @@ public class AuthService implements UserDetailsService {
                 loginDto.getUsername(),
                 loginDto.getPassword()
         ));
-        String token = jwtProvider.generateToken(loginDto.getUsername());
-        return new ApiResponse("Login successfully",true,token,null);
+        User user = (User) loadUserByUsername(loginDto.getUsername());
+        String token = jwtProvider.generateToken(loginDto.getUsername(),user.getAuthorityType());
+        return new ApiResponse("Login successfully",true,token,user.getId());
     }
 
     @Override

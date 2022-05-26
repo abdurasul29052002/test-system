@@ -10,6 +10,11 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Table(uniqueConstraints = {
+        @UniqueConstraint(columnNames = {
+                "user_id","generated_test_id"
+        })
+})
 public class Grade {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
