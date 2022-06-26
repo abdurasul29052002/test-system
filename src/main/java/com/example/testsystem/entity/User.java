@@ -31,7 +31,7 @@ public class User implements UserDetails{
     @Enumerated(EnumType.STRING)
     AuthorityType authorityType;
 
-    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private List<Grade> gradeList;
 
     private boolean accountNonExpired;

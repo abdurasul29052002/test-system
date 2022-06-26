@@ -1,7 +1,6 @@
 package com.example.testsystem.controller;
 
 import com.example.testsystem.model.ApiResponse;
-import com.example.testsystem.model.UserModel;
 import com.example.testsystem.payload.UserDto;
 import com.example.testsystem.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,12 +16,12 @@ public class UserController {
     UserService userService;
 
     @GetMapping
-    public List<UserModel> getAllUsers(){
+    public List<UserDto> getAllUsers(){
         return userService.getAllUsers();
     }
 
-    @GetMapping("/byId}")
-    public UserModel getUserById(){
+    @GetMapping("/byId")
+    public UserDto getUserById(){
         return userService.getUserById();
     }
 

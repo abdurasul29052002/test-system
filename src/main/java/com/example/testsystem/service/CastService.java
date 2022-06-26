@@ -2,6 +2,7 @@ package com.example.testsystem.service;
 
 import com.example.testsystem.entity.*;
 import com.example.testsystem.model.*;
+import com.example.testsystem.payload.UserDto;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -33,12 +34,12 @@ public class CastService {
         return new GeneratedTestModel(generatedTest.getId(),generatedTest.getTest().getId(),questionModelList);
     }
 
-    public UserModel castToUserModel(User user){
+    public UserDto castToUserDto(User user){
         List<GradeModel> gradeModelList = new ArrayList<>();
         for (Grade grade : user.getGradeList()) {
             gradeModelList.add(castToGradeModel(grade));
         }
-        return new UserModel(user.getId(), user.getFullName(), user.getUsername(), gradeModelList,user.getAuthorityType());
+        return new UserDto(user.getId(), user.getFullName(), user.getUsername(), gradeModelList,user.getAuthorityType());
     }
 
     public GradeModel castToGradeModel(Grade grade){

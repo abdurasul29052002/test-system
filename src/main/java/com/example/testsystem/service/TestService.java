@@ -141,4 +141,13 @@ public class TestService {
         }
         return gradeSum;
     }
+
+    public List<TestModel> getTestsBySubjectId(Long subjectId) {
+        List<Test> allBySubjectId = testRepository.findAllBySubjectId(subjectId);
+        List<TestModel> testModelList = new ArrayList<>();
+        for (Test test : allBySubjectId) {
+            testModelList.add(castService.castToTestModel(test));
+        }
+        return testModelList;
+    }
 }

@@ -42,4 +42,8 @@ public class TestController {
         return testService.getTestsByUserId();
     }
 
+    @GetMapping("/bySubject/{id}")
+    public List<TestModel> getTestsBySubject(@PathVariable Long id){
+        return testService.getTestsBySubjectId(id);
+    }
 }

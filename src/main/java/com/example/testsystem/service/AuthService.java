@@ -2,9 +2,11 @@ package com.example.testsystem.service;
 
 import com.example.testsystem.component.JwtProvider;
 import com.example.testsystem.entity.User;
+import com.example.testsystem.entity.enums.AuthorityType;
 import com.example.testsystem.model.ApiResponse;
 import com.example.testsystem.payload.LoginDto;
 import com.example.testsystem.payload.RegisterDto;
+import com.example.testsystem.payload.UserDto;
 import com.example.testsystem.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -30,17 +32,19 @@ public class AuthService implements UserDetailsService {
     AuthenticationManager authenticationManager;
     @Autowired
     JwtProvider jwtProvider;
+    @Autowired
+    CastService castService;
 
-    public ApiResponse registerUser(RegisterDto registerDto){
+    public UserDto registerUser(RegisterDto registerDto){
         User user = new User(null,
                 registerDto.getFullName(),
                 registerDto.getUsername(),
                 passwordEncoder.encode(registerDto.getPassword()),
-                registerDto.getAuthorityType(),
+                AuthorityType.USER,
                 new ArrayList<>(),
                 true,true,true,true);
         User savedUser = userRepository.save(user);
-        return new ApiResponse("User saved",true,null,savedUser.getId());
+        return castService.castToUserDto(user);
     }
 
     public ApiResponse loginUser(LoginDto loginDto) {

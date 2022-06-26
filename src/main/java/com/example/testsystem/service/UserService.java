@@ -2,8 +2,6 @@ package com.example.testsystem.service;
 
 import com.example.testsystem.entity.User;
 import com.example.testsystem.model.ApiResponse;
-import com.example.testsystem.model.GradeModel;
-import com.example.testsystem.model.UserModel;
 import com.example.testsystem.payload.UserDto;
 import com.example.testsystem.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,19 +20,20 @@ public class UserService {
     @Autowired
     CastService castService;
 
-    public List<UserModel> getAllUsers() {
+    public List<UserDto> getAllUsers() {
         List<User> users = userRepository.findAllByEnabled(true);
-        List<UserModel> userModels = new ArrayList<>();
+        List<UserDto> userModels = new ArrayList<>();
         for (User user : users) {
-            UserModel userModel = castService.castToUserModel(user);
-            userModels.add(userModel);
+            UserDto userDto = castService.castToUserDto(user);
+            userModels.add(userDto);
         }
         return userModels;
     }
 
-    public UserModel getUserById() {
+    public UserDto getUserById() {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return castService.castToUserModel(user);
+        User userFromBase = userRepository.findById(user.getId()).orElseThrow(NullPointerException::new);
+        return castService.castToUserDto(userFromBase);
     }
 
     public ApiResponse updateUser(UserDto userDto,Long id){
